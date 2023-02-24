@@ -1,0 +1,34 @@
+// day 3
+// feb 24, 2023
+vector<int> helper(int src, int dest, vector<vector<pair<int,int>>> &graph, int n){
+    vector<int> ans(n + 10, 1e9);
+    ans[src] = 0;
+    
+    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+    
+    pair<int, int> srcitem = {0, src};
+    
+    pq.push(srcitem);
+    
+    while(!pq.empty()){
+        int node, d;
+        tie(d, node) = pq.top();
+        
+        pq.pop();
+        
+        for(auto nextitem : graph[node]){
+            int child, dx;
+            tie(child, dx) = nextitem;
+            
+            if(d + dx < ans[child]){
+                ans[child] = d + dx;
+                
+                pair<int,int> newitem = {ans[child], child};
+                
+                pq.push(newitem);
+            }
+        }
+    }
+    
+    return ans;
+}
